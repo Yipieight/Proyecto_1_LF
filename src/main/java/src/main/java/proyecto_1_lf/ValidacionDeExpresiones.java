@@ -36,7 +36,7 @@ public class ValidacionDeExpresiones {
         System.out.println();
     }
 
-    boolean verificarSet(String line) {
+    boolean verificarSet(String line) throws Exception {
         System.out.println("Debug: Verifying SETS section.");
 
         Pattern p = Pattern.compile(
@@ -50,13 +50,12 @@ public class ValidacionDeExpresiones {
         System.out.println("Debug: Cleaned line: " + cleanedLine);
 
         Matcher m = p.matcher(cleanedLine);
-        boolean isMatching = m.matches();
+        boolean isMatching = m.find();
         System.out.println("Debug: Matching result for line " + lineNumber + ": " + isMatching);
 
         if (!isMatching) {
             int errorColumn = getErrorColumn(line, p);
-            System.out.println("Error in line " + lineNumber + " at column " + errorColumn + ": " + line);
-            return false;
+            throw new Exception("Error in line " + lineNumber + " at column " + errorColumn + ": " + line);
         } else {
             System.out.println("Debug: Line " + lineNumber + " passed validation.");
         }
@@ -64,7 +63,7 @@ public class ValidacionDeExpresiones {
         return true;
     }
 
-    boolean verificarTokens(String line) {
+    boolean verificarTokens(String line) throws Exception {
         System.out.println("Debug: Verifying TOKENS section.");
 
         // Updated regular expression for TOKEN lines, including support for parentheses
@@ -74,7 +73,7 @@ public class ValidacionDeExpresiones {
         System.out.println("Debug: Reading line " + lineNumber + ": " + line);
 
         Matcher m = p.matcher(line);
-        boolean isMatching = m.matches();
+        boolean isMatching = m.find();
         System.out.println("Debug: Matching result for line " + lineNumber + ": " + isMatching);
 
         if (isMatching) {
@@ -89,8 +88,7 @@ public class ValidacionDeExpresiones {
             }
         } else {
             int errorColumn = getErrorColumn(line, p);
-            System.out.println("Error in line " + lineNumber + " at column " + errorColumn + ": " + line);
-            return false;
+            throw new Exception("Error in line " + lineNumber + " at column " + errorColumn + ": " + line);
         }
         return true;
     }
