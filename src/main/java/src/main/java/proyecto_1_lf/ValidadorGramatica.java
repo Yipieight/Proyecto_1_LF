@@ -57,16 +57,16 @@ public class ValidadorGramatica {
         Pattern pattern = Pattern.compile("");
         Matcher matcher = pattern.matcher(line);
 
-        if ((matcher = pattern.compile("SETS").matcher(line)).matches() || matcher.hitEnd()) {
+        if ((matcher = pattern.compile("SETS").matcher(line)).find() || matcher.hitEnd()) {
             throw new IllegalStateException("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
-        } else if ((matcher = pattern.compile("TOKENS").matcher(line)).matches() || matcher.hitEnd()) {
+        } else if ((matcher = pattern.compile("TOKENS").matcher(line)).find() || matcher.hitEnd()) {
             throw new IllegalStateException("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
-        } else if ((matcher = pattern.compile("ACTIONS").matcher(line)).matches() || matcher.hitEnd()) {
+        } else if ((matcher = pattern.compile("ACTIONS").matcher(line)).find() || matcher.hitEnd()) {
             throw new IllegalStateException("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
-        } else if ((matcher = pattern.compile("ERROR").matcher(line)).matches() || matcher.hitEnd()) {
+        } else if ((matcher = pattern.compile("ERROR").matcher(line)).find() || matcher.hitEnd()) {
             throw new IllegalStateException("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
         }
