@@ -27,23 +27,21 @@ public class ValidadorGramatica {
             }
             expresiones.lineNumber++;
 
-            if (pattern.compile("ERROR").matcher(readLine).find() || currentName.equals("ERROR")) {
+            if (pattern.compile("ERROR").matcher(readLine).find() || currentName.trim().equals("ERROR")) {
                 currentName = "ERROR";
                 expresiones.verificarError(readLine);
-            } else if (pattern.compile("ACTIONS").matcher(readLine).find() || currentName.equals("ACTIONS")) {
+            } else if (pattern.compile("ACTIONS").matcher(readLine).find() || currentName.trim().equals("ACTIONS")) {
                 currentName = "ACTIONS";
                 expresiones.verificarActions(reader,readLine);
-
-                
-            } else if (pattern.compile("TOKENS").matcher(readLine).find() || currentName.equals("TOKENS")) {
+            } else if (pattern.compile("TOKENS").matcher(readLine).find() || currentName.trim().equals("TOKENS")) {
                 currentName = "TOKENS";
-                if (readLine.equals("TOKENS")) {
+                if (readLine.trim().equals("TOKENS")) {
                     continue;
                 }
                 expresiones.verificarTokens(readLine);
-            } else if (pattern.compile("SETS").matcher(readLine).find() || currentName.equals("SETS")) {
+            } else if (pattern.compile("SETS").matcher(readLine).find() || currentName.trim().equals("SETS")) {
                 currentName = "SETS";
-                if (readLine.equals("SETS")) {
+                if (readLine.trim().equals("SETS")) {
                     continue;
                 }
                 expresiones.verificarSet(readLine);

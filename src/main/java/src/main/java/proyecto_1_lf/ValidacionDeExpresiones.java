@@ -116,7 +116,7 @@ public class ValidacionDeExpresiones {
                 tempLine = null;
                 continue; // Ignora lineas vacias
             }
-            else if (line.equals("ACTIONS")){
+            else if (line.trim().equals("ACTIONS")){
                 tempLine = null;
                 continue; 
             }
