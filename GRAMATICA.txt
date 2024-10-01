@@ -1,28 +1,9 @@
 SETS
-	LETRA = 	'A'..'Z'+'a'..'z'+'_'
-	DIGITO = '0'..'9'
+	LETRA   = 'A'..'Z'+'a'..'z'+'_'
+	DIGITO  = '0'..'9'
 	CHARSET = CHR(32)..CHR(254)
 TOKENS
 	TOKEN 1= DIGITO DIGITO *
-	TOKEN 2='"' CHARSET '"'|''' CHARSET '''
-	TOKEN  4  = '='
-	TOKEN  5  = '<''>'
-	TOKEN  6  = '<'
-	TOKEN  7  = '>'
-	TOKEN  8  = '>''='
-	TOKEN  9  = '<''='
-	TOKEN  10  = '+'
-	TOKEN  11  = '-'
-	TOKEN  12  = 'O''R'
-	TOKEN  13  = '*'
-	TOKEN  14  = 'A''N''D'
-	TOKEN  15  = 'M''O''D'
-	TOKEN  16  = 'D''I''V'
-	TOKEN  17  = 'N''O''T'
-	TOKEN  40  = '(''*'
-	TOKEN  41  = '*'')'
-	TOKEN  42  = ';'
-	TOKEN  43  = '.'
 	TOKEN 2='"' CHARSET '"'|''' CHARSET '''
 	TOKEN  4  = '='
 	TOKEN  5  = '<''>'
@@ -52,10 +33,9 @@ TOKENS
 	TOKEN  51  = ':'
 	TOKEN  52  = ','
 	TOKEN  53  = ':''='
-	TOKEN 3= LETRA ( LETRA | DIGITO )*   { RESERVADAS() }
-ACTIONS
-
-RESERVADAS()
+	TOKEN 3= LETRA ( LETRA | DIGITO )*   { RESERVADAS() } 
+ACTIONS 
+RESERVADAS() 
 {
 	18 = 'PROGRAM'
 	19 = 'INCLUDE'
@@ -79,9 +59,5 @@ RESERVADAS()
 	37 = 'CASE'
 	38 = 'BREAK'
 	39 = 'DOWNTO'
-}
-HOLA()
-{
-	
 }
 ERROR = 54

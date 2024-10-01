@@ -1,3 +1,4 @@
+
 TOKENS             
      TOKEN 1 = DIGITO  DIGITO *                                 
      TOKEN  4  ='='

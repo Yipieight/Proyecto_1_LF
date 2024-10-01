@@ -6,15 +6,13 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String[] args) {
         
-        String hola = "                         SET";
-        Pattern p = Pattern.compile("SETS");
+        String hola = "256";
+        Pattern p = Pattern.compile("((25[0-6])|(2[0-4][0-9])|(1[0-9]{2})|([1-9][0-9]|[1-9]))");
         Matcher m = p.matcher(hola);
 
-        System.out.println(m.find());
-        System.out.println(m.hitEnd());
 
-        if((m = p.compile("SETS").matcher(hola)).matches() || m.hitEnd()) {
-            System.out.println("");
+        if(m.matches()){
+            System.out.println("HOLAA");
         }
     }
 }

@@ -9,7 +9,7 @@ public class ValidadorGramatica {
 
     // hola
     public static void main(String[] args) throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("GRAMATICA.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("prueba_4-1.txt"));
         BufferedReader temp;
         String readLine = "";
 
@@ -18,57 +18,75 @@ public class ValidadorGramatica {
         ValidacionDeExpresiones expresiones = new ValidacionDeExpresiones();
         System.out.println(reader.lines());
         String currentName = "";
+        boolean validation = true;
 
         // Read the file and classify each line based on the section
-        while ((readLine = reader.readLine()) != null) {
+        while ((readLine = reader.readLine()) != null && validation) {
             if (readLine.trim().isEmpty()) {
                 expresiones.lineNumber++;
                 continue;
             }
-            expresiones.lineNumber++;
+            expresiones.lineNumber++; 
 
             if (pattern.compile("ERROR").matcher(readLine).find() || currentName.trim().equals("ERROR")) {
                 currentName = "ERROR";
-                expresiones.verificarError(readLine);
+                validation = expresiones.verificarError(readLine);
             } else if (pattern.compile("ACTIONS").matcher(readLine).find() || currentName.trim().equals("ACTIONS")) {
                 currentName = "ACTIONS";
-                expresiones.verificarActions(reader,readLine);
+                if (readLine.trim().equals("ACTIONS")) {
+                    continue;
+                }
+                validation = expresiones.verificarActions(reader,readLine);
             } else if (pattern.compile("TOKENS").matcher(readLine).find() || currentName.trim().equals("TOKENS")) {
                 currentName = "TOKENS";
                 if (readLine.trim().equals("TOKENS")) {
                     continue;
                 }
-                expresiones.verificarTokens(readLine);
+                validation = expresiones.verificarTokens(readLine);
             } else if (pattern.compile("SETS").matcher(readLine).find() || currentName.trim().equals("SETS")) {
                 currentName = "SETS";
                 if (readLine.trim().equals("SETS")) {
                     continue;
                 }
-                expresiones.verificarSet(readLine);
+                validation = expresiones.verificarSet(readLine);
             } else {
-                validationCamp(readLine, expresiones.lineNumber);
+                validation = validationCamp(readLine, expresiones.lineNumber);
             }
         }
         reader.close();
+
+        if (validation) {
+            System.out.println("ALL LINES PASS SUCESSFUL");
+        }
     }
 
-    public static void validationCamp(String line, int lineNumber) {
+    public static boolean validationCamp(String line, int lineNumber) {
         ValidacionDeExpresiones temp = new ValidacionDeExpresiones();
         Pattern pattern = Pattern.compile("");
         Matcher matcher = pattern.matcher(line);
 
+        matcher = pattern.compile("SETS").matcher(line);
+        System.out.println(matcher.find());
+        System.out.println(matcher.hitEnd());
+
+
         if ((matcher = pattern.compile("SETS").matcher(line)).find() || matcher.hitEnd()) {
-            throw new IllegalStateException("Error in line " + lineNumber + " at column "
+            System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
+            return false;
         } else if ((matcher = pattern.compile("TOKENS").matcher(line)).find() || matcher.hitEnd()) {
-            throw new IllegalStateException("Error in line " + lineNumber + " at column "
+            System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
+            return false;
         } else if ((matcher = pattern.compile("ACTIONS").matcher(line)).find() || matcher.hitEnd()) {
-            throw new IllegalStateException("Error in line " + lineNumber + " at column "
+            System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
+            return false;
         } else if ((matcher = pattern.compile("ERROR").matcher(line)).find() || matcher.hitEnd()) {
-            throw new IllegalStateException("Error in line " + lineNumber + " at column "
+            System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
+            return false;
         }
+        return true;
     }
 }

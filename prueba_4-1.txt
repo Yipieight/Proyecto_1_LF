@@ -19,8 +19,8 @@ TOKENS
      TOKEN 3= LETRA ( LETRA | DIGITO )*   { RESERVADAS() }
 
 ACTIONS
-RESERVADAS() {
-
+RESERVADAS()
+{
      18 = 'PROGRAM'
      19 = 'INCLUDE'
      20 = 'CONST'
