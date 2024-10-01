@@ -9,7 +9,7 @@ public class ValidadorGramatica {
 
     // hola
     public static void main(String[] args) throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("prueba_4-1.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("prueba_3-1.txt"));
         BufferedReader temp;
         String readLine = "";
 
@@ -62,31 +62,41 @@ public class ValidadorGramatica {
 
     public static boolean validationCamp(String line, int lineNumber) {
         ValidacionDeExpresiones temp = new ValidacionDeExpresiones();
-        Pattern pattern = Pattern.compile("");
-        Matcher matcher = pattern.matcher(line);
-
-        matcher = pattern.compile("SETS").matcher(line);
-        System.out.println(matcher.find());
-        System.out.println(matcher.hitEnd());
-
-
-        if ((matcher = pattern.compile("SETS").matcher(line)).find() || matcher.hitEnd()) {
-            System.out.println("Error in line " + lineNumber + " at column "
-                    + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
-            return false;
-        } else if ((matcher = pattern.compile("TOKENS").matcher(line)).find() || matcher.hitEnd()) {
-            System.out.println("Error in line " + lineNumber + " at column "
-                    + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
-            return false;
-        } else if ((matcher = pattern.compile("ACTIONS").matcher(line)).find() || matcher.hitEnd()) {
-            System.out.println("Error in line " + lineNumber + " at column "
-                    + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
-            return false;
-        } else if ((matcher = pattern.compile("ERROR").matcher(line)).find() || matcher.hitEnd()) {
+        Pattern pattern;
+        Matcher matcher;
+    
+        pattern = Pattern.compile("S[E]?T?S?");
+        matcher = pattern.matcher(line);
+        if (matcher.find()) {
             System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
             return false;
         }
+    
+        pattern = Pattern.compile("T[O]?K?E?N?S?");
+        matcher = pattern.matcher(line);
+        if (matcher.find()) {
+            System.out.println("Error in line " + lineNumber + " at column "
+                    + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
+            return false;
+        }
+    
+        pattern = Pattern.compile("A[C]?T?I?O?N?S?");
+        matcher = pattern.matcher(line);
+        if (matcher.find()) {
+            System.out.println("Error in line " + lineNumber + " at column "
+                    + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
+            return false;
+        }
+    
+        pattern = Pattern.compile("E[R]?R?R?O?R?");
+        matcher = pattern.matcher(line);
+        if (matcher.find()) {
+            System.out.println("Error in line " + lineNumber + " at column "
+                    + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
+            return false;
+        }
+    
         return true;
     }
 }
