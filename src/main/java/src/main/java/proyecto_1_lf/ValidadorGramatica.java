@@ -9,7 +9,7 @@ public class ValidadorGramatica {
 
     // hola
     public static void main(String[] args) throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("prueba_3-1.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("GRAMATICA.txt"));
         BufferedReader temp;
         String readLine = "";
 
@@ -64,39 +64,41 @@ public class ValidadorGramatica {
         ValidacionDeExpresiones temp = new ValidacionDeExpresiones();
         Pattern pattern;
         Matcher matcher;
-    
-        pattern = Pattern.compile("S[E]?T?S?");
+        line = line.trim();
+        pattern = Pattern.compile("SETS");
         matcher = pattern.matcher(line);
-        if (matcher.find()) {
+        if (matcher.matches() || matcher.hitEnd()) {
             System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
             return false;
         }
     
-        pattern = Pattern.compile("T[O]?K?E?N?S?");
+        pattern = Pattern.compile("TOKENS");
         matcher = pattern.matcher(line);
-        if (matcher.find()) {
+        if (matcher.matches()  || matcher.hitEnd()) {
             System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
             return false;
         }
     
-        pattern = Pattern.compile("A[C]?T?I?O?N?S?");
+        pattern = Pattern.compile("ACTIONS");
         matcher = pattern.matcher(line);
-        if (matcher.find()) {
+        if (matcher.matches()|| matcher.hitEnd()) {
             System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
             return false;
         }
     
-        pattern = Pattern.compile("E[R]?R?R?O?R?");
+        pattern = Pattern.compile("ERRROR");
         matcher = pattern.matcher(line);
-        if (matcher.find()) {
+        if (matcher.matches() || matcher.hitEnd()) {
             System.out.println("Error in line " + lineNumber + " at column "
                     + temp.getErrorColumn(line, matcher.pattern()) + ": " + line);
             return false;
         }
-    
-        return true;
+
+        System.out.println("Error in line " + lineNumber + " at column "
+                 + temp.getErrorColumn(line,pattern)+": " + line);
+        return false;
     }
 }
