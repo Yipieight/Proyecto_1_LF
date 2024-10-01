@@ -11,8 +11,10 @@ public class ValidacionDeExpresiones {
 
     // Method to get the column number of the first match failure
     public int getErrorColumn(String line, Pattern p) {
+        line = line.replaceAll("\\s+$", "");
+        String subcadena = line;
         Matcher m = p.matcher(line);
-        String subcadena = "";
+
         for (int i = 0; i <= line.length(); i++) {
             subcadena = line.substring(0, i);
             Matcher subMatcher = p.matcher(subcadena);
@@ -39,7 +41,8 @@ public class ValidacionDeExpresiones {
     boolean verificarSet(String line) throws Exception {
         System.out.println("Debug: Verifying SETS section.");
 
-        Pattern p = Pattern.compile("\\s+([A-Z_]+)\\s*=\\s*'([A-Za-z0-9_])'\\s*\\.\\.\\s*'([A-Za-z0-9_])'(\\s*\\+\\s*('([A-Za-z0-9_])'|('([A-Za-z0-9_])'\\s*\\.\\.\\s*'([A-Za-z0-9_])')))*\\s*|\\s*([A-Z_]+)\\s*=\\s*CHR\\(((25[0-6])|(2[0-4][0-9])|(1[0-9]{2})|([1-9][0-9]|[1-9]))\\)\\s*\\.\\.\\s*CHR\\(((25[0-6])|(2[0-4][0-9])|(1[0-9]{2})|([1-9][0-9]|[1-9]))\\)\\s*");
+        Pattern p = Pattern.compile(
+                "\\s+([A-Z_]+)\\s*=\\s*'([A-Za-z0-9_])'\\s*\\.\\.\\s*'([A-Za-z0-9_])'(\\s*\\+\\s*('([A-Za-z0-9_])'|('([A-Za-z0-9_])'\\s*\\.\\.\\s*'([A-Za-z0-9_])')))*\\s*|\\s*([A-Z_]+)\\s*=\\s*CHR\\(((25[0-6])|(2[0-4][0-9])|(1[0-9]{2})|([1-9][0-9]|[1-9]))\\)\\s*\\.\\.\\s*CHR\\(((25[0-6])|(2[0-4][0-9])|(1[0-9]{2})|([1-9][0-9]|[1-9]))\\)\\s*");
 
         System.out.println("Debug: Reading line " + lineNumber + ": " + line);
         logAsciiValues(line);
@@ -81,7 +84,7 @@ public class ValidacionDeExpresiones {
             if (!isBalanced(tokenExpression)) {
                 System.out
                         .println("Error in line " + lineNumber + " at column " + getErrorColumn(line, p) + ": " + line);
-                return false;             
+                return false;
             } else {
                 System.out.println("Debug: Line " + lineNumber + " passed validation.");
             }
@@ -98,9 +101,11 @@ public class ValidacionDeExpresiones {
     }
 
     public boolean haveFuntionReservadas = false;
+
     boolean verificarActions(BufferedReader reader, String tempLine) throws Exception {
         System.out.println("Debug: Verifying ACTIONS section.");
         String line = "";
+
         // Pattern to match the RESERVADAS() declaration
         Pattern reservadasPattern = Pattern.compile("(RESERVADAS\\(\\))|([A-Z]*\\(\\))");
 
@@ -117,23 +122,26 @@ public class ValidacionDeExpresiones {
                 continue; // Ignora lineas vacias
             }
 
-
             // Check for RESERVADAS() on the first line
             if (!readFunction) {
                 readFunction = true;
                 Matcher reservadasMatcher = reservadasPattern.matcher(line);
-                if (line.trim().equals("RESERVADAS()")) {
+                if (reservadasMatcher.find()) {
                     haveFuntionReservadas = true;
                 }
+                reservadasMatcher = reservadasPattern.matcher(line);
                 if (!reservadasMatcher.find()) {
                     int errorColumn = getErrorColumn(line, reservadasPattern);
                     System.out.println("Error in line " + lineNumber + " at column " + errorColumn + ": " + line);
                     return false;
                 }
-                else{
-                    System.out.println("Debug: Line " + lineNumber + " passed validation.");
-                    continue;
+                if (line.contains("{}")) {
+                    return true;
+                } else if (line.contains("{")) {
+                    insideActionBlock = true;
                 }
+                System.out.println("Debug: Line " + lineNumber + " passed validation.");
+                continue;
             }
             lineNumber++;
 
@@ -158,10 +166,11 @@ public class ValidacionDeExpresiones {
                     System.out.println("Debug: Line " + lineNumber + " passed validation.");
                 }
             } else {
-                System.out.println("Error: Expected opening `{` at line " + lineNumber +"and column:" + getErrorColumn(line,Pattern.compile("{")));
+                System.out.println("Error: Expected opening `{` at line " + lineNumber + " and column: "
+                        + getErrorColumn(line, Pattern.compile("\\{")));
                 return false;
             }
-        } 
+        }
         if (insideActionBlock) {
             System.out.println("Error: Missing closing `}` for action block.");
             return false;
@@ -184,7 +193,7 @@ public class ValidacionDeExpresiones {
         if (!isMatching) {
             System.out.println(
                     "Error in line " + lineNumber + " at column " + getErrorColumn(line, p) + ": " + line);
-                    return false;
+            return false;
         } else {
             System.out.println("Debug: Line " + lineNumber + " passed validation.");
         }

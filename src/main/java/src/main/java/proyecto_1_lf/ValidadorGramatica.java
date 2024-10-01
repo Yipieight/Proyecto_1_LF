@@ -56,7 +56,7 @@ public class ValidadorGramatica {
         reader.close();
 
         if (validation) {
-            System.out.println("ALL LINES PASS SUCESSFUL");
+            System.out.println("ALL LINES PASS SUCCESSFUL");
         }
     }
 
@@ -64,7 +64,7 @@ public class ValidadorGramatica {
         ValidacionDeExpresiones temp = new ValidacionDeExpresiones();
         Pattern pattern;
         Matcher matcher;
-        line = line.trim();
+        line = line.replaceAll("\\s*$", "");
         pattern = Pattern.compile("SETS");
         matcher = pattern.matcher(line);
         if (matcher.matches() || matcher.hitEnd()) {
