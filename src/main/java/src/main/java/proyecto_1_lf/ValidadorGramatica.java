@@ -10,7 +10,6 @@ public class ValidadorGramatica {
     // hola
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader("GRAMATICA.txt"));
-        BufferedReader temp;
         String readLine = "";
 
         Pattern pattern = Pattern.compile("");
@@ -29,6 +28,12 @@ public class ValidadorGramatica {
             expresiones.lineNumber++; 
 
             if (pattern.compile("ERROR").matcher(readLine).find() || currentName.trim().equals("ERROR")) {
+                //Despues de analizar el campo de ACTIONS se verifica si se uso la funcion de RESERVADAS() donde tiene que estar obligatoriamente en el campo de ACTIONS
+                if (!expresiones.haveFuntionReservadas) {
+                    System.out.println("NO CONTAIN RESERVADAS() FUNCTION");
+                    validation = false;
+                    continue;
+                }
                 currentName = "ERROR";
                 validation = expresiones.verificarError(readLine);
             } else if (pattern.compile("ACTIONS").matcher(readLine).find() || currentName.trim().equals("ACTIONS")) {

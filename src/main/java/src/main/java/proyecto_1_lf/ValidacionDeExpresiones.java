@@ -107,7 +107,8 @@ public class ValidacionDeExpresiones {
         String line = "";
 
         // Pattern to match the RESERVADAS() declaration
-        Pattern reservadasPattern = Pattern.compile("(RESERVADAS\\(\\))|([A-Z]*\\(\\))");
+        Pattern funcPattern = Pattern.compile("([A-Z]*\\(\\))");
+        Pattern reservadasPattern = Pattern.compile("(RESERVADAS\\(\\))");
 
         // Pattern to match action definitions like 18 = 'PROGRAM'
         Pattern actionPattern = Pattern.compile("\\s+\\d+\\s*=\\s*'\\w+'");
@@ -121,15 +122,15 @@ public class ValidacionDeExpresiones {
                 lineNumber++;
                 continue; // Ignora lineas vacias
             }
-
-            // Check for RESERVADAS() on the first line
+            // Check if line is a function
             if (!readFunction) {
                 readFunction = true;
+                // Check for RESERVADAS() on the first line
                 Matcher reservadasMatcher = reservadasPattern.matcher(line);
                 if (reservadasMatcher.find()) {
                     haveFuntionReservadas = true;
                 }
-                reservadasMatcher = reservadasPattern.matcher(line);
+                reservadasMatcher = funcPattern.matcher(line);
                 if (!reservadasMatcher.find()) {
                     int errorColumn = getErrorColumn(line, reservadasPattern);
                     System.out.println("Error in line " + lineNumber + " at column " + errorColumn + ": " + line);
