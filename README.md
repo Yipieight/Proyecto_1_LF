@@ -59,8 +59,30 @@ El proyecto está compuesto por las siguientes clases principales:
 5. **Exportar a Excel**:
    Los resultados de la validación pueden ser exportados a Excel automáticamente.
 
-## Contribuciones
-Si deseas contribuir, por favor realiza un fork del proyecto y envía un pull request con tus cambios.
+## Conclusiones
+1. **Eficiencia en la Validación**: El sistema es capaz de validar expresiones regulares y gramáticas de manera eficiente, permitiendo detectar errores rápidamente con información detallada sobre su ubicación en el archivo. Esto facilita la corrección de errores en grandes archivos de gramática.
+   
+2. **Árbol de Expresiones**: La implementación del árbol de expresiones facilita el análisis de las estructuras sintácticas de las expresiones regulares, lo que resulta útil en aplicaciones como compiladores o sistemas de procesamiento de lenguaje.
 
-## Licencia
-Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+3. **Exportación a Excel**: La exportación de los resultados de los análisis a Excel ofrece una excelente manera de compartir y revisar los conjuntos de resultados generados por el sistema, lo cual puede ser útil en contextos académicos o empresariales.
+
+4. **Modularidad del Código**: El diseño modular permite ampliar o modificar fácilmente el sistema para soportar nuevos tipos de validación, operadores adicionales o cambios en las reglas gramaticales.
+
+## Recomendaciones
+1. **Optimización de Memoria**: En futuras versiones, se recomienda optimizar el uso de memoria, especialmente al trabajar con archivos muy grandes o cuando se procesan gramáticas complejas que involucran muchos tokens y reglas.
+
+2. **Soporte para Más Formatos de Salida**: Actualmente, los resultados se exportan a Excel. Sería recomendable agregar soporte para otros formatos como CSV, PDF o incluso bases de datos, según los requerimientos del usuario.
+
+3. **Mejorar la Visualización del Árbol**: Para facilitar el análisis visual de las expresiones regulares, se puede integrar una interfaz gráfica que muestre el árbol de expresión de una manera más interactiva.
+
+4. **Ampliar la Documentación**: Se recomienda ampliar la documentación interna del código para facilitar el mantenimiento y la colaboración entre desarrolladores. Esto incluye agregar más comentarios en el código y crear una guía de desarrollo.
+
+5. **Pruebas Unitarias**: Implementar un conjunto robusto de pruebas unitarias para garantizar que el código funcione correctamente bajo diferentes escenarios y para simplificar el proceso de identificación de errores.
+"""
+
+## Contribuciones
+GARCÍA ELÍAS JOSÉ ANDRÉS         1106423
+DE LA CRUZ GUEVARA MARIO RICARDO	1176323
+RUANO LAM JUAN LUIS DANIEL	      1247723
+XIQUIN CUMES OSCAR DANIEL	      1118423
+
