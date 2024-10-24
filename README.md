@@ -82,7 +82,11 @@ El proyecto está compuesto por las siguientes clases principales:
 
 ## Contribuciones
 GARCÍA ELÍAS JOSÉ ANDRÉS         1106423
+"""
 DE LA CRUZ GUEVARA MARIO RICARDO	1176323
+"""
 RUANO LAM JUAN LUIS DANIEL	      1247723
+"""
 XIQUIN CUMES OSCAR DANIEL	      1118423
+"""
 
