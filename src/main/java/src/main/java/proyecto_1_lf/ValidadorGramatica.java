@@ -1,7 +1,11 @@
 package src.main.java.proyecto_1_lf;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,6 +66,28 @@ public class ValidadorGramatica {
 
         if (validation) {
             System.out.println("ALL LINES PASS SUCCESSFUL");
+            String archivoGramatica = "GRAMATICA.txt";
+            ExpresionRegularToken Token = new ExpresionRegularToken();
+            String ExpresionTokenn =  Token.generarExpresionRegular(archivoGramatica);
+            String regex = "("+ExpresionTokenn+").#";
+            ExpressionTreeParser parser = new ExpressionTreeParser();
+            TreeNode root = parser.parse(regex); 
+            String rutaArchivo = "arbol_expresion.txt";
+            File archivo = new File(rutaArchivo);
+
+            if (!archivo.exists()) {
+                archivo.createNewFile();
+                System.out.println("Archivo creado: " + archivo.getName());
+            } 
+            ExpressionTreePrinter.printTreeToFile(root, rutaArchivo);
+
+            ExpressionTreeExcelExporter.exportToExcel(root);
+
+            Map<Integer, Set<Integer>> followMap = new HashMap<>();
+            root.calculateFollow(followMap);
+        
+            ExpressionTreeExcelExporter.exportFollowsToExcel(followMap);
+
         }
     }
 
