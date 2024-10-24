@@ -13,7 +13,7 @@ public class ValidadorGramatica {
 
     public static void main(String[] args) throws Exception {
         //Se agrega aqui el archivo que se desea evaluar
-        String archivoGramatica = "GRAMATICA.txt";
+        String archivoGramatica = "prueba_2-1.txt";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
@@ -67,7 +67,7 @@ public class ValidadorGramatica {
 
         if (validation) {
             System.out.println("ALL LINES PASS SUCCESSFUL");
-            archivoGramatica = "GRAMATICA.txt";
+            archivoGramatica = "prueba_2-1.txt";
             ExpresionRegularToken Token = new ExpresionRegularToken();
             String ExpresionTokenn =  Token.generarExpresionRegular(archivoGramatica);
                 String regex = "("+ExpresionTokenn+").#";
@@ -90,6 +90,34 @@ public class ValidadorGramatica {
         
             ExpressionTreeExcelExporter.exportFollowsToExcel(followMap);
 
+            Set<Integer> firstSet = root.first();
+
+            Map<Integer, String> terminalMap = new HashMap<>();
+            generateTerminals(root, terminalMap);
+    
+            DFA dfa = new DFA(terminalMap, followMap);
+            dfa.generateStates(firstSet);
+            
+            // Imprimir los estados del DFA
+            System.out.println("\nEstados del AFD:");
+            dfa.printStates();  
+
+        }
+    }
+
+    private static void generateTerminals(TreeNode node, Map<Integer, String> terminalMap) {  
+        if (node instanceof OperandNode) {
+            OperandNode opNode = (OperandNode) node;
+            if (!opNode.getValue().equals("#")) {  
+                terminalMap.put(opNode.getId(), opNode.getValue());  
+            }
+        } else if (node instanceof OperatorNode) {
+            OperatorNode opNode = (OperatorNode) node;
+            generateTerminals(opNode.getLeft(), terminalMap);
+            generateTerminals(opNode.getRight(), terminalMap);
+        } else if (node instanceof UnaryOperatorNode) {
+            UnaryOperatorNode unaryNode = (UnaryOperatorNode) node;
+            generateTerminals(unaryNode.getChild(), terminalMap);
         }
     }
 

@@ -1,6 +1,7 @@
 
 TOKENS             
-     TOKEN 1 = DIGITO  DIGITO *                                 
+     TOKEN 1 = DIGITO  DIGITO *
+     TOKEN 5 = LETRA DIGITO                                 
      TOKEN  4  ='='
      
 
