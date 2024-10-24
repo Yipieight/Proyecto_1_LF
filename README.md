@@ -20,6 +20,7 @@ El proyecto está compuesto por las siguientes clases principales:
 - **Mapas y Conjuntos**: Se utilizan para calcular y gestionar los conjuntos `first`, `last`, y `follow`.
 
 ## Entrada
+- **ValidadorGramatica.java**: En esta clase se coloca el archivo.txt para proporcionar la gramatica generar las tablas.
 - **Expresiones Regulares**: Se aceptan como cadenas o archivos TXT.
 - **Archivos TXT**: Archivos con gramáticas y definiciones de tokens.
 

@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public class ValidadorGramatica {
 
     public static void main(String[] args) throws Exception {
+        //Se agrega aqui el archivo que se desea evaluar
         String archivoGramatica = "GRAMATICA.txt";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
