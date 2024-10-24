@@ -119,5 +119,52 @@ public class ExpressionTreeExcelExporter {
         }
         workbook.close();
     }
+
+    public static void exportDFAStatesToExcel(List<State> states, Map<Integer, String> terminalMap) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("DFA States");
+    
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Estados");
+
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        Font headerFont = workbook.createFont();
+        headerFont.setColor(IndexedColors.WHITE.getIndex());
+        headerStyle.setFont(headerFont);
+
+        Cell headerCell = headerRow.createCell(0);
+        headerCell.setCellValue("Estados");
+        headerCell.setCellStyle(headerStyle);
+
+        int columnIndex = 1;
+        for (String terminal : terminalMap.values()) {
+            Cell cell = headerRow.createCell(columnIndex++);
+            cell.setCellValue(terminal);
+            cell.setCellStyle(headerStyle);  
+        }
+        
+            int rowNum = 1;
+            for (State state : states) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue("S" + state.ids.toString());  
+        
+                columnIndex = 1;
+                for (String terminal : terminalMap.values()) {
+                    if (state.transitions.containsKey(terminal)) {
+                        row.createCell(columnIndex).setCellValue(state.transitions.get(terminal).ids.toString()); 
+                    }
+                    columnIndex++;
+                }
+            }
+        
+            try (FileOutputStream fileOut = new FileOutputStream("dfa_states_formatted.xlsx")) {
+                workbook.write(fileOut);
+            }
+            workbook.close();
+        }
+    
     
 }

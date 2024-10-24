@@ -98,9 +98,8 @@ public class ValidadorGramatica {
             DFA dfa = new DFA(terminalMap, followMap);
             dfa.generateStates(firstSet);
             
-            // Imprimir los estados del DFA
-            System.out.println("\nEstados del AFD:");
-            dfa.printStates();  
+
+            ExpressionTreeExcelExporter.exportDFAStatesToExcel(dfa.states, terminalMap);
 
         }
     }
