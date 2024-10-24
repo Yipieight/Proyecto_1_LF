@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 
 public class ValidadorGramatica {
 
-    // hola
     public static void main(String[] args) throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("GRAMATICA.txt"));
+        String archivoGramatica = "GRAMATICA.txt";
+        BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
         Pattern pattern = Pattern.compile("");
@@ -66,10 +66,10 @@ public class ValidadorGramatica {
 
         if (validation) {
             System.out.println("ALL LINES PASS SUCCESSFUL");
-            String archivoGramatica = "GRAMATICA.txt";
+            archivoGramatica = "GRAMATICA.txt";
             ExpresionRegularToken Token = new ExpresionRegularToken();
             String ExpresionTokenn =  Token.generarExpresionRegular(archivoGramatica);
-            String regex = "("+ExpresionTokenn+").#";
+                String regex = "("+ExpresionTokenn+").#";
             ExpressionTreeParser parser = new ExpressionTreeParser();
             TreeNode root = parser.parse(regex); 
             String rutaArchivo = "arbol_expresion.txt";
