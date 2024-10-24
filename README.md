@@ -78,15 +78,18 @@ El proyecto está compuesto por las siguientes clases principales:
 4. **Ampliar la Documentación**: Se recomienda ampliar la documentación interna del código para facilitar el mantenimiento y la colaboración entre desarrolladores. Esto incluye agregar más comentarios en el código y crear una guía de desarrollo.
 
 5. **Pruebas Unitarias**: Implementar un conjunto robusto de pruebas unitarias para garantizar que el código funcione correctamente bajo diferentes escenarios y para simplificar el proceso de identificación de errores.
-"""
 
 ## Contribuciones
+```
 GARCÍA ELÍAS JOSÉ ANDRÉS         1106423
-"""
+```
+```
 DE LA CRUZ GUEVARA MARIO RICARDO	1176323
-"""
+```
+```
 RUANO LAM JUAN LUIS DANIEL	      1247723
-"""
+```
+```
 XIQUIN CUMES OSCAR DANIEL	      1118423
-"""
+```
 
