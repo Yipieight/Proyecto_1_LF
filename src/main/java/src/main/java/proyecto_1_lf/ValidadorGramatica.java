@@ -71,6 +71,7 @@ public class ValidadorGramatica {
             ExpresionRegularToken Token = new ExpresionRegularToken();
             String ExpresionTokenn =  Token.generarExpresionRegular(archivoGramatica);
                 String regex = "("+ExpresionTokenn+").#";
+                System.out.println(regex);
             ExpressionTreeParser parser = new ExpressionTreeParser();
             TreeNode root = parser.parse(regex); 
             String rutaArchivo = "arbol_expresion.txt";
