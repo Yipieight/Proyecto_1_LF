@@ -13,7 +13,7 @@ public class ValidadorGramatica {
     public static void main(String[] args) throws Exception {
         //Se agrega aqui el archivo que se desea evaluar
         String archivoGramatica = "GRAMATICA.txt";
-        String cadena = "AND";
+        String cadena = ". ? + * ) (";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
@@ -130,12 +130,35 @@ public class ValidadorGramatica {
         }
         
     }
+
+    public static Map<Character, String> cambios(){
+        Map<Character, String> traspaso = new HashMap<>();
+        traspaso.put('.', "'.'");
+        traspaso.put('(', "'('");
+        traspaso.put(')', "')'");
+        traspaso.put('?', "'?'");
+        traspaso.put('+', "'+'");
+        traspaso.put('*', "'*'");
+        return traspaso;
+    }
+
+
     public static String validarCadenaSeparada(String token, DFA dfa, State stateTemp){
+        Map<Character, String> cambios = cambios();
         for(char c : token.toCharArray()){
-            stateTemp = stateTemp.transitions.get(String.valueOf(c));
-            if(stateTemp == null){
-                return("" + token + " = error");
+            if(c == '.' || c == '(' || c == ')' || c == '*' || c == '+' || c == '?'){
+                String clave = cambios.get(c);
+                stateTemp = stateTemp.transitions.get(String.valueOf(clave));
+                if(stateTemp == null){
+                    return("" + token + " = error");
+                }
+            }else{
+                stateTemp = stateTemp.transitions.get(String.valueOf(c));
+                if(stateTemp == null){
+                    return("" + token + " = error");
+                }
             }
+            
         }
         String val = contieneClaveConPatron(stateTemp.transitions);
         if(val != null){   
