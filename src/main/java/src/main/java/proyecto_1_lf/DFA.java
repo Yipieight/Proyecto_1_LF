@@ -3,8 +3,8 @@ package src.main.java.proyecto_1_lf;
 import java.util.*;
 
 class State {
-    Set<Integer> ids;  
-    Map<String, State> transitions;  
+    Set<Integer> ids;
+    Map<String, State> transitions;
 
     public State(Set<Integer> ids) {
         this.ids = ids;
@@ -19,17 +19,30 @@ class State {
     public String toString() {
         return "State " + ids + " -> " + transitions.keySet().toString();
     }
+
+    public Map<String, State> getTransitions() {
+        return transitions;
+    }
+
+    public void setTransitions(Map<String, State> transitions) {
+        this.transitions = transitions;
+    }
+
 }
 
 public class DFA {
-    Map<Integer, String> terminalMap;  
-    Map<Integer, Set<Integer>> followMap; 
-    List<State> states;  
+    Map<Integer, String> terminalMap;
+    Map<Integer, Set<Integer>> followMap;
+    List<State> states;
 
     public DFA(Map<Integer, String> terminalMap, Map<Integer, Set<Integer>> followMap) {
         this.terminalMap = terminalMap;
         this.followMap = followMap;
         this.states = new ArrayList<>();
+    }
+
+    public void getStatesTrasitions() {
+
     }
 
     public void generateStates(Set<Integer> firstSet) {
@@ -43,12 +56,12 @@ public class DFA {
             Map<String, Set<Integer>> transitionSets = new HashMap<>();
 
             for (int id : currentState.ids) {
-                String terminal = terminalMap.get(id);  
+                String terminal = terminalMap.get(id);
                 if (terminal == null || terminal.equals("#")) {
-                    continue;  
+                    continue;
                 }
                 transitionSets.putIfAbsent(terminal, new HashSet<>());
-                transitionSets.get(terminal).addAll(followMap.get(id)); 
+                transitionSets.get(terminal).addAll(followMap.get(id));
             }
 
             for (Map.Entry<String, Set<Integer>> entry : transitionSets.entrySet()) {
@@ -57,11 +70,11 @@ public class DFA {
 
                 State nextState = findState(followSet);
                 if (nextState == null) {
-                    nextState = new State(followSet); 
+                    nextState = new State(followSet);
                     states.add(nextState);
                     queue.add(nextState);
                 }
-                currentState.addTransition(terminal, nextState);  
+                currentState.addTransition(terminal, nextState);
             }
         }
     }
@@ -71,6 +84,27 @@ public class DFA {
             if (state.ids.equals(followSet)) {
                 return state;
             }
+        }
+        return null;
+    }
+
+    public State findState(int followSet) {
+        if (states.contains(followSet)) {
+            return states.get(followSet);
+        }
+        return null;
+    }
+
+    public State findState(State state, int followSet) {
+        if (state.ids.contains(followSet)) {
+            return state.transitions.get(followSet);
+        }
+        return null;
+    }
+
+    public State firstState() {
+        if (!states.isEmpty()) {
+            return states.get(0);
         }
         return null;
     }

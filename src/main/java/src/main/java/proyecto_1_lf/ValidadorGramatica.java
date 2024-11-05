@@ -8,12 +8,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 public class ValidadorGramatica {
 
     public static void main(String[] args) throws Exception {
         //Se agrega aqui el archivo que se desea evaluar
-        String archivoGramatica = "prueba_2-1.txt";
+        String archivoGramatica = "GRAMATICA.txt";
+        String cadena = "AND";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
@@ -67,7 +67,6 @@ public class ValidadorGramatica {
 
         if (validation) {
             System.out.println("ALL LINES PASS SUCCESSFUL");
-            archivoGramatica = "prueba_2-1.txt";
             ExpresionRegularToken Token = new ExpresionRegularToken();
             String ExpresionTokenn =  Token.generarExpresionRegular(archivoGramatica);
                 String regex = "("+ExpresionTokenn+").#";
@@ -98,10 +97,62 @@ public class ValidadorGramatica {
             DFA dfa = new DFA(terminalMap, followMap);
             dfa.generateStates(firstSet);
             
+            // Imprimir los estados del DFA
+            System.out.println("\nEstados del AFD:");
+            dfa.printStates();  
 
-            ExpressionTreeExcelExporter.exportDFAStatesToExcel(dfa.states, terminalMap);
+            State firstState = dfa.firstState();
+            System.out.println();
 
+            
+            //ExpressionTreeExcelExporter.exportDFAStatesToExcel(dfa.states, terminalMap);
+
+            validarCadena(cadena, dfa, firstState);
+            System.out.println();
+
+            /*System.out.println();
+            State cuState = dfa.findState(20);
+            System.out.println();*/
         }
+    }
+
+    public static void validarCadena(String cadena, DFA dfa, State stateTemp) {
+        String[] cadenaSeparado = cadena.split(" ");
+        for (String token : cadenaSeparado) {
+            String val = validarCadenaSeparada(token, dfa, stateTemp);
+            if(val.matches("ERROR")){
+                System.out.println(val);
+                break;
+            }else{
+                System.out.println(val);
+            }
+            stateTemp = dfa.firstState();
+        }
+        
+    }
+    public static String validarCadenaSeparada(String token, DFA dfa, State stateTemp){
+        for(char c : token.toCharArray()){
+            stateTemp = stateTemp.transitions.get(String.valueOf(c));
+            if(stateTemp == null){
+                return("" + token + " = error");
+            }
+        }
+        String val = contieneClaveConPatron(stateTemp.transitions);
+        if(val != null){   
+            return(token + " = " + val);
+        }
+        else{
+            return("Error");
+        }
+    }
+
+    public static String contieneClaveConPatron(Map<String, State> mapa) {
+        for (String clave : mapa.keySet()) {
+            if (clave.matches("T\\d+")) {
+                return clave; // Encontramos una coincidencia
+            }
+        }
+        return null; // No se encontró ninguna coincidencia
     }
 
     private static void generateTerminals(TreeNode node, Map<Integer, String> terminalMap) {  
