@@ -12,7 +12,7 @@ class State {
     }
 
     public void addTransition(String terminal, State state) {
-        transitions.put(terminal, state);
+        transitions.put(terminal.replace("'", ""), state);
     }
 
     @Override
