@@ -1,13 +1,17 @@
 package src.main.java.proyecto_1_lf;
 
 import java.io.BufferedReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidacionDeExpresiones {
 
     public int lineNumber = 0;
+    public Map<String, String> actionToken = new HashMap<>();
+
 
     // Method to get the column number of the first match failure
     public int getErrorColumn(String line, Pattern p) {
@@ -165,6 +169,7 @@ public class ValidacionDeExpresiones {
                     return false;
                 } else {
                     System.out.println("Debug: Line " + lineNumber + " passed validation.");
+                    actionsTokens(line);
                 }
             } else {
                 System.out.println("Error: Expected opening `{` at line " + lineNumber + " and column: "
@@ -179,6 +184,25 @@ public class ValidacionDeExpresiones {
 
         return true;
     }
+
+    public void actionsTokens(String line){
+        Pattern pattern = Pattern.compile("(\\d+)\\s*=\\s*'([^']*)'");
+        Matcher matcher = pattern.matcher(line);
+        System.out.println(line);
+
+        if(matcher.find()){
+            String numeroToken = matcher.group(1);
+            String finalNumeroToken = "T"+numeroToken;
+            String contenidoToken = matcher.group(2);
+            actionToken.put(contenidoToken, finalNumeroToken);
+        }
+
+    }
+
+    public Map<String, String> actionsTokensReturn(){
+        return actionToken;
+    }
+
 
     boolean verificarError(String line) {
         System.out.println("Debug: Verifying ERROR section.");

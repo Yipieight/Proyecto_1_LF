@@ -9,17 +9,19 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class ValidadorGramatica {
+    public static Map<String, String> actionTokens = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
         //Se agrega aqui el archivo que se desea evaluar
         String archivoGramatica = "GRAMATICA.txt";
-        String cadena = "\"?\" ) ? + * ) (";
+        String cadena = "PROGRAM HOLA * * ) (";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
         Pattern pattern = Pattern.compile("");
 
         ValidacionDeExpresiones expresiones = new ValidacionDeExpresiones();
+        actionTokens = expresiones.actionsTokensReturn();
         System.out.println(reader.lines());
         String currentName = "";
         boolean validation = true;
@@ -116,9 +118,15 @@ public class ValidadorGramatica {
         }
     }
 
+
     public static void validarCadena(String cadena, DFA dfa, State stateTemp) {
         String[] cadenaSeparado = cadena.split(" ");
         for (String token : cadenaSeparado) {
+            String preVal = contieneClaveAction(token);
+            if(preVal != null){
+                System.out.println(preVal);
+                continue;
+            }
             String val = validarCadenaSeparada(token, dfa, stateTemp);
             if(val.matches("ERROR")){
                 System.out.println(val);
@@ -148,6 +156,15 @@ public class ValidadorGramatica {
         else{
             return("Error");
         }
+    }
+
+    public static String contieneClaveAction(String cadena){
+        for(String clave : actionTokens.keySet()){
+            if(clave.equals(cadena) ){
+                return clave + " = " + actionTokens.get(clave);
+            }
+        }
+        return null;
     }
 
     public static String contieneClaveConPatron(Map<String, State> mapa) {
