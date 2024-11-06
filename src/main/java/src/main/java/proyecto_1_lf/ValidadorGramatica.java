@@ -14,7 +14,7 @@ public class ValidadorGramatica {
     public static void main(String[] args) throws Exception {
         //Se agrega aqui el archivo que se desea evaluar
         String archivoGramatica = "GRAMATICA.txt";
-        String cadena = "PROGRAM HOLA * * ) (";
+        String cadena = "IF () * * ) ( =";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
@@ -159,10 +159,10 @@ public class ValidadorGramatica {
     }
 
     public static String contieneClaveAction(String cadena){
-        for(String clave : actionTokens.keySet()){
-            if(clave.equals(cadena) ){
-                return clave + " = " + actionTokens.get(clave);
-            }
+
+        String action = actionTokens.get(cadena);
+        if(action != null){
+            return cadena + " = " + action;
         }
         return null;
     }
