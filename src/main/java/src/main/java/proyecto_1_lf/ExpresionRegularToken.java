@@ -89,6 +89,8 @@ public class ExpresionRegularToken {
     public static String concatenarTerminos(String token) {
         token = token.replaceAll("(?<!')\\s*([*+?=,:.;])\\s*(?!')", " $1 ");  // No concatenar operadores o símbolos fuera de comillas simples
     
+        token = token.replaceAll("\\{\\s*(.*?)\\s*\\}", "|$1"); //Esta es la que cambia {FUNCION()} a |Funcion ()
+
         token = token.replaceAll("\\s*\\(\\s*", " ( ");  // Evitar concatenación para paréntesis abiertos fuera de comillas
         token = token.replaceAll("\\s*\\)\\s*", " ) ");  // Evitar concatenación para paréntesis cerrados fuera de comillas
     
@@ -108,7 +110,7 @@ public class ExpresionRegularToken {
     
         token = token.replaceAll("'\\s*'\\s*'\\s*'", "'''");  // Concatenar comillas simples triples
         token = token.replaceAll("(?<=\\w)\\s*'\\s*'\\s*(?=\\w)", ".'.");  // Concatenar comilla simple con otros valores
-    
+
         token = token.replaceAll("(?<=\\w)\\s*\\(\\s*\\)\\s*", "()");  // Concatenar () con la palabra anterior, como FUNCION()
     
         token = token.replaceAll("(?<=\\w|[<>'\"#\\$%{}\\-;¡>=,:.;])\\s+(?=\\w|[<>'\"#\\$%{}\\-;¡>=,:.;])", ".");  // Concatenar entre términos, caracteres, símbolos, y otros símbolos

@@ -21,7 +21,7 @@ public class ValidadorGramatica {
     public static void main(String[] args) throws Exception {
         // Se agrega aqui el archivo que se desea evaluar
         String archivoGramatica = "GRAMATICA.txt";
-        String cadena = "IF 'H' * * ) ( =";
+        String cadena = "pone tu chucha mami";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
