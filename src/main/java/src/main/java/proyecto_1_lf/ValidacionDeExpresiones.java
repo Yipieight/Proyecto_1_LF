@@ -13,7 +13,6 @@ public class ValidacionDeExpresiones {
     public Map<String, String> actionToken = new HashMap<>();
 
 
-    // Method to get the column number of the first match failure
     public int getErrorColumn(String line, Pattern p) {
         line = line.replaceAll("\\s+$", "");
         String subcadena = line;
@@ -25,7 +24,7 @@ public class ValidacionDeExpresiones {
             if (!subMatcher.matches() && !subMatcher.hitEnd()) {
                 subcadena = subcadena.substring(0, i - 1);
                 long extraColumn = subcadena.chars().filter(c -> c == '\t').count() * 3;
-                return i + (int) extraColumn; // Regresar el índice donde falla
+                return i + (int) extraColumn; 
             }
         }
 
@@ -117,19 +116,17 @@ public class ValidacionDeExpresiones {
         // Pattern to match action definitions like 18 = 'PROGRAM'
         Pattern actionPattern = Pattern.compile("\\s+\\d+\\s*=\\s*'\\w+'");
 
-        boolean insideActionBlock = false; // Track whether we're inside an action block
-        boolean readFunction = false; // Track whether we're inside an action block
+        boolean insideActionBlock = false; 
+        boolean readFunction = false; 
 
         while ((line = (tempLine != null ? tempLine : reader.readLine())) != null) {
             tempLine = null;
             if (line.trim().isEmpty()) {
                 lineNumber++;
-                continue; // Ignora lineas vacias
+                continue; 
             }
-            // Check if line is a function
             if (!readFunction) {
                 readFunction = true;
-                // Check for RESERVADAS() on the first line
                 Matcher reservadasMatcher = reservadasPattern.matcher(line);
                 if (reservadasMatcher.find()) {
                     haveFuntionReservadas = true;

@@ -3,10 +3,12 @@ package src.main.java.proyecto_1_lf;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +23,6 @@ public class ValidadorGramatica {
     public static void main(String[] args) throws Exception {
         // Se agrega aqui el archivo que se desea evaluar
         String archivoGramatica = "GRAMATICA.txt";
-        String cadena = "pone tu chucha mami";
         BufferedReader reader = new BufferedReader(new FileReader(archivoGramatica));
         String readLine = "";
 
@@ -109,22 +110,27 @@ public class ValidadorGramatica {
             dfa.generateStates(firstSet);
 
             // Imprimir los estados del DFA
-            System.out.println("\nEstados del AFD:");
-            dfa.printStates();
+            /*
+             * System.out.println("\nEstados del AFD:");
+             * dfa.printStates();
+             */
 
             State firstState = dfa.firstState();
             System.out.println();
 
-            // ExpressionTreeExcelExporter.exportDFAStatesToExcel(dfa.states, terminalMap);
+            ExpressionTreeExcelExporter.exportDFAStatesToExcel(dfa.states, terminalMap);
 
-            validarCadena(cadena, dfa, firstState);
-            System.out.println();
+            Scanner scanner = new Scanner(System.in);
+            String line = "";
+            while (!line.equals("exit")) {
+                System.out.println("Añade una cadena");
+                line = scanner.nextLine();
+                System.out.println("------Token-Segun-La-Cadena------");
+                validarCadena(line, dfa, firstState);
+                System.out.println("\n\n\n");
+            }
+            scanner.close();
 
-            /*
-             * System.out.println();
-             * State cuState = dfa.findState(20);
-             * System.out.println();
-             */
         }
     }
 
@@ -168,7 +174,7 @@ public class ValidadorGramatica {
         for (Map.Entry<String, List<Rango>> entry : mapaRangos.entrySet()) {
             String tipo = entry.getKey();
             List<Rango> rangos = entry.getValue();
-            if(tipo.equals("CHARSET")) {
+            if (tipo.equals("CHARSET")) {
                 continue;
             }
             if (perteneceARangos(c, rangos)) {
@@ -181,7 +187,7 @@ public class ValidadorGramatica {
     public static String detectarRangoCharset(char c) {
         for (Map.Entry<String, List<Rango>> entry : mapaRangos.entrySet()) {
             String tipo = entry.getKey();
-            if(!tipo.equals("CHARSET")) {
+            if (!tipo.equals("CHARSET")) {
                 continue;
             }
             List<Rango> rangos = entry.getValue();
@@ -194,7 +200,7 @@ public class ValidadorGramatica {
 
     public static boolean perteneceARangos(char c, List<Rango> rangos) {
         for (Rango rango : rangos) {
-            if (rango.contiene(c)) {
+            if (rango.contiene((int) new String(new char[]{c}).getBytes(Charset.forName("IBM437"))[0] & 0xFF)) {
                 return true;
             }
         }
@@ -204,8 +210,8 @@ public class ValidadorGramatica {
     public static void validarCadena(String cadena, DFA dfa, State stateTemp) {
         String[] cadenaSeparado = cadena.split(" ");
         for (String token : cadenaSeparado) {
-            String preVal = contieneClaveAction(token);
-            
+            String preVal = contieneClaveAction(token.toUpperCase());
+
             if (preVal != null) {
                 System.out.println(preVal);
                 continue;
@@ -227,10 +233,13 @@ public class ValidadorGramatica {
             if (stateTemp.transitions.containsKey("CHARSET")) {
                 String preSetsCharacter = detectarRangoCharset(token.charAt(1));
                 stateTemp = stateTemp.transitions.get(preSetsCharacter);
+                if (stateTemp == null) {
+                    return (token + " = " + "Error");
+                }
                 continue;
             }
             String preSets = detectarRango(c);
-            if(preSets != null && !preSets.equals("ERROR")){
+            if (preSets != null && !preSets.equals("ERROR")) {
                 stateTemp = stateTemp.transitions.get(preSets);
                 continue;
             }
@@ -240,18 +249,17 @@ public class ValidadorGramatica {
             }
 
         }
-        if(stateTemp != null){
+        if (stateTemp != null) {
             String val = contieneClaveConPatron(stateTemp.transitions);
             if (val != null) {
                 return (token + " = " + val);
             } else {
                 return (token + " = " + "Error");
             }
-        }
-        else{
+        } else {
             return (token + " = " + "Error");
         }
-    
+
     }
 
     public static String contieneClaveAction(String cadena) {

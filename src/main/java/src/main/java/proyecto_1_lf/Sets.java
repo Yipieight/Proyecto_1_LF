@@ -13,7 +13,7 @@ public class Sets {
             this.fin = fin;
         }
 
-        public boolean contiene(char c) {
+        public boolean contiene(int c) {
             return c >= inicio && c <= fin;
         }
     }
