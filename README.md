@@ -92,4 +92,52 @@ RUANO LAM JUAN LUIS DANIEL	      1247723
 ```
 XIQUIN CUMES OSCAR DANIEL	      1118423
 ```
+# Manual de Usuario - Proyecto de Validación y Exportación de Expresiones Regulares
+
+## Descripción
+Este proyecto permite validar archivos de gramática y expresiones, construir árboles de expresión, y generar archivos Excel relacionados. Implementa una máquina de Moore que identifica y exporta los tokens derivados de las expresiones validadas.
+
+## Requisitos
+- **Java** (JDK 11 o superior)
+- **Apache Maven**
+
+## Instalación
+1. Clona el repositorio:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd Proyecto_1_LF
+   ```
+
+2. Compila el proyecto:
+   ```bash
+   mvn clean install
+   ```
+
+## Uso
+### Validación de Gramática
+1. Carga un archivo con la gramática que deseas validar.
+![Texto alternativo](img/Ingreso%20de%20gramatica%20.gif)
+
+3. Si la gramática es válida, el programa generará automáticamente los archivos Excel con los conjuntos `follow`.
+![Texto alternativo](img/Follows.gif)
+
+
+### Ingreso de Expresiones
+- Una vez validada la gramática, ingresa expresiones (por ejemplo, `hola mundo =`) para que la máquina de Moore las procese y devuelva los tokens identificados.
+  
+   ![Texto alternativo](img/Añadir%20cadena.gif)
+## Exportación de Resultados
+Los tokens generados y otros resultados de la validación se exportarán a archivos Excel para análisis posterior.
+
+   ![Texto alternativo](img/Estados.gif)
+
+## Ejemplo
+```bash
+java -jar target/proyecto-gramatica.txt
+```
+- **Entrada de gramática**: archivo de texto estructurado.
+- **Entrada de expresiones**: expresiones de prueba para validar.
+
+---
+
 
